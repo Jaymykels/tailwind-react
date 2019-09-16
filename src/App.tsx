@@ -1,25 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
+import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
+import { dataReducer, initialState, Actions } from './dataReducer'
+import Datatable, { Header } from './Datatable'
+import React, { useReducer, useEffect, useState } from 'react';
 
 const App: React.FC = () => {
+
+  const header: Header[] = [
+    {
+      title: "Name",
+      sortable: true,
+      key: "name"
+    },
+    {
+      title: "Gender",
+      sortable: false,
+      key: "gender",
+      render: (row: any) => row.gender === "male" ? "👨" : row.gender === "female" ? "👩" : "😕"
+    },
+    {
+      title: "Region",
+      sortable: true,
+      key: "region"
+    }
+  ]
+
+  const [data, setData] = useState<any[]>([])
+
+  const [tableData, dispatch] = useReducer(dataReducer, { ...initialState, data, searchData: data })
+
+  useEffect(() => {
+    dispatch({ type: Actions.SET_DATA, key: data })
+  }, [data])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await fetch(`https://uinames.com/api/?amount=100`);
+        let users = await response.json()
+        setData(users)
+      } catch(err) {console.log(err)}
+    }
+    fetchData()
+  }, [])
+
   return (
-    <div className="m-auto antialiased font-sans font-serif font-mono text-center">
-      <header className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="text-blue-300"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Taiwlind with React TypeScript
-        </a>
-      </header>
-    </div>
-  );
+    <Datatable {...tableData.paginated} dispatch={dispatch} header={header} />
+  )
 }
 
 export default App;
