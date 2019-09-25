@@ -1,3 +1,32 @@
 @tailwind base;
+button:focus {
+    @apply outline-none;
+}
 @tailwind components;
 @tailwind utilities;
+
+.theme-light {
+    --color-bg-primary: #fff;
+    --color-bg-secondary: #f2f4f7;
+
+    --color-text-primary: #646777;
+    --color-text-secondary: #999999;
+
+    --font-display: Georgia, Times, "Times New Roman", serif;
+    --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
+        "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana,
+        "Verdana Ref", sans-serif;
+}
+
+.theme-dark {
+    --color-bg-primary: #232329;
+    --color-bg-secondary: #2a2a31;
+
+    --color-text-primary: #dddddd;
+    --color-text-secondary: #999999;
+
+    --font-display: Georgia, Times, "Times New Roman", serif;
+    --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
+        "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana,
+        "Verdana Ref", sans-serif;
+}

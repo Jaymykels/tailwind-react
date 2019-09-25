@@ -2,6 +2,7 @@ import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import { dataReducer, initialState, Actions } from './dataReducer'
 import Datatable, { Header } from './Datatable'
 import React, { useReducer, useEffect, useState } from 'react';
+import Layout from './Layout';
 
 const App: React.FC = () => {
 
@@ -26,7 +27,7 @@ const App: React.FC = () => {
 
   const [data, setData] = useState<any[]>([])
 
-  const [tableData, dispatch] = useReducer(dataReducer, { ...initialState, data, searchData: data })
+  const [tableData, dispatch] = useReducer(dataReducer, { ...initialState, data, searchData: data, perPage: 5 })
 
   useEffect(() => {
     dispatch({ type: Actions.SET_DATA, key: data })
@@ -44,7 +45,11 @@ const App: React.FC = () => {
   }, [])
 
   return (
-    <Datatable {...tableData.paginated} dispatch={dispatch} header={header} />
+    <div>
+      <Layout>
+        <Datatable {...tableData.paginated} dispatch={dispatch} header={header} />
+      </Layout>
+    </div>
   )
 }
 
